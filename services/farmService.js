@@ -1,4 +1,4 @@
-const Farm = require('../models/farm');
+const { Farm } = require('../models');
 
 exports.createFarm = async (farmData) => {
   try {

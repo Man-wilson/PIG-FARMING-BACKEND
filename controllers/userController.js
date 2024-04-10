@@ -4,6 +4,10 @@ exports.createUser = async (req, res, next) => {
   try {
     const user = await userService.createUser(req.body);
 
+    if (!user) {
+      return res.status(422).json({ message: 'Username or Email already exists' });
+    }
+
     res.status(201).json(user);
   } catch (error) {
     next(error);

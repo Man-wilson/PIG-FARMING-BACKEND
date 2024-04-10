@@ -1,4 +1,4 @@
-const Pig = require('../models/pig');
+const { Pig } = require('../models');
 
 exports.createPig = async (pigData) => {
   try {

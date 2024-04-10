@@ -1,7 +1,6 @@
-const User = require('../models/user');
-const Role = require('../models/role');
-const Location = require('../models/location');
-const { hashPassword, comparePassword} = require('../utils/passwordUtils');
+const { Op } = require('sequelize');
+const { User, Role, Location } = require('../models');
+const { hashPassword, comparePassword } = require('../utils/passwordUtils');
 
 exports.createUser = async (userData) => {
   const {
@@ -21,7 +20,7 @@ exports.createUser = async (userData) => {
   });
 
   if (existingUser) {
-    throw new Error('Username or eamil already exists');
+    return null;
   }
 
   // Hash the password
@@ -93,77 +92,82 @@ exports.getAllUsers = async () => {
   return users;
 };
 
-
 exports.getUserByUsername = async (username) => {
-    const user = await User.findOne({
-        where: { username },
-        include: [
-            { model: Role, attributes: ['id', 'name']},
-            { model: Location,  attributes: ['id', 'address', 'city', 'state', 'country', 'zipcode']},
-        ],
-    });
+  const user = await User.findOne({
+    where: { username },
+    include: [
+      { model: Role, attributes: ['id', 'name'] },
+      {
+        model: Location,
+        attributes: ['id', 'address', 'city', 'state', 'country', 'zipcode'],
+      },
+    ],
+  });
 
-    return user;
+  return user;
 };
 
 exports.getUserByEmail = async (email) => {
-    const user = await User.findOne({
-        where: { email },
-        include: [
-            {model: Role, attributes: ['id', 'name']},
-            {model: Location, attributes: ['id', 'address', 'city', 'state', 'country', 'zipCode']},
-        ],
-    });
+  const user = await User.findOne({
+    where: { email },
+    include: [
+      { model: Role, attributes: ['id', 'name'] },
+      {
+        model: Location,
+        attributes: ['id', 'address', 'city', 'state', 'country', 'zipCode'],
+      },
+    ],
+  });
 
-    return user;
+  return user;
 };
 
 exports.updateUserPassword = async (userId, currentPassword, newPassword) => {
-    const user = await User.findByPk(userId);
+  const user = await User.findByPk(userId);
 
-    if(!user) {
-        throw new Error('User not found');
-    }
+  if (!user) {
+    throw new Error('User not found');
+  }
 
-    // check if the current password matches
-    const isPasswordvalid = await comparePassword(currentPassword, user.password);
+  // check if the current password matches
+  const isPasswordvalid = await comparePassword(currentPassword, user.password);
 
-    if(!isPasswordvalid){
-        throw new Error('Invalid current password');
-    }
+  if (!isPasswordvalid) {
+    throw new Error('Invalid current password');
+  }
 
-    // Hash the new password
-    const hashedPassword = await hashPassword(newPassword);
+  // Hash the new password
+  const hashedPassword = await hashPassword(newPassword);
 
-    // Update the user's password
-    user.password = hashedPassword;
-    await user.save();
+  // Update the user's password
+  user.password = hashedPassword;
+  await user.save();
 };
 
 exports.updateUserRole = async (userId, roleId) => {
-    const user = await User.findByPk(userId);
+  const user = await User.findByPk(userId);
 
-    if(!user) {
-        return null;
-    }
+  if (!user) {
+    return null;
+  }
 
-    // Update the user's role
-    user.roleId = roleId;
-    await user.save();
+  // Update the user's role
+  user.roleId = roleId;
+  await user.save();
 
-    return user;
+  return user;
 };
 
-exports.updateUserLocation = async(userId, locationId) =>{
-    const user = await user.findByPk(userId);
+exports.updateUserLocation = async (userId, locationId) => {
+  const user = await user.findByPk(userId);
 
-    if(!user){
-        return null;
-    }
+  if (!user) {
+    return null;
+  }
 
-    // update user's location
-    user.locationId = locationId;
-    await user.save();
+  // update user's location
+  user.locationId = locationId;
+  await user.save();
 
-    return user;
-}
+  return user;
+};

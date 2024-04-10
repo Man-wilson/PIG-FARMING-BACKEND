@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const { User } = require('../models');
 const { generateToken, verifyToken } = require('../utils/jwtUtils');
 const { comparePassword } = require('../utils/passwordUtils');
 
@@ -9,12 +9,12 @@ exports.login = async (username, password) => {
 
     // if user not found
     if (!user) {
-      return null;
+      return {token: null, user: null};
     }
 
     // check the password
     if (!(await comparePassword(password, user.password))) {
-      return null;
+      return {token: null, user: null};
     }
 
     // user successfully verified, generate token
