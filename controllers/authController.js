@@ -17,7 +17,15 @@ exports.login = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
   try {
-    await authService.logout(req.user);
+    const header = req.headers.authorization;
+
+    if (!header) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    const token = header.split(' ')[1];
+
+    await authService.logout(token);
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
     next(error);

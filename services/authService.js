@@ -9,12 +9,12 @@ exports.login = async (username, password) => {
 
     // if user not found
     if (!user) {
-      return {token: null, user: null};
+      return { token: null, user: null };
     }
 
     // check the password
     if (!(await comparePassword(password, user.password))) {
-      return {token: null, user: null};
+      return { token: null, user: null };
     }
 
     // user successfully verified, generate token
@@ -25,17 +25,15 @@ exports.login = async (username, password) => {
   }
 };
 
-exports.logout = async (user) => {
+exports.logout = async (token) => {
   try {
-    // Get the user's current token
-    const token = user.token;
-
     // Invalidate the token by adding it to a blacklist or revoking it
     await invalidateToken(token);
 
     // Return a success message or any other relevant data
     return { message: 'Logout successful' };
   } catch (error) {
+    console.log(error);
     throw new Error('Logout failed');
   }
 };
