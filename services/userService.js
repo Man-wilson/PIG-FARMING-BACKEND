@@ -47,7 +47,7 @@ exports.getUserById = async (userId) => {
       { model: Role, attributes: ['id', 'name'] },
       {
         model: Location,
-        attributes: ['id', 'address', 'city', 'state', 'country', 'zipCode'],
+        attributes: ['id', 'address', 'province', 'district', 'sector', 'zipCode'],
       },
     ],
   });

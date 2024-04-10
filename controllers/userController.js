@@ -5,7 +5,9 @@ exports.createUser = async (req, res, next) => {
     const user = await userService.createUser(req.body);
 
     if (!user) {
-      return res.status(422).json({ message: 'Username or Email already exists' });
+      return res
+        .status(422)
+        .json({ message: 'Username or Email already exists' });
     }
 
     res.status(201).json(user);
@@ -16,7 +18,7 @@ exports.createUser = async (req, res, next) => {
 
 exports.getUserById = async (req, res, next) => {
   try {
-    const user = await userService.getuserById(req.params.id);
+    const user = await userService.getUserById(req.params.id);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
