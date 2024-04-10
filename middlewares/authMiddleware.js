@@ -1,5 +1,5 @@
 const jwtUtils = require('../utils/jwtUtils');
-const User = require('../models/user');
+const {User} = require('../models');
 const tokenBlacklist = require('../config/tokenBlacklist');
 
 exports.authenticateUser = async (req, res, next) => {
@@ -26,6 +26,7 @@ exports.authenticateUser = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
+    console.log(error)
     res.status(401).json({ message: 'Authentication failed!' });
   }
 };

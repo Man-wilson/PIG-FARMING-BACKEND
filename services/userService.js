@@ -47,7 +47,14 @@ exports.getUserById = async (userId) => {
       { model: Role, attributes: ['id', 'name'] },
       {
         model: Location,
-        attributes: ['id', 'address', 'province', 'district', 'sector', 'zipCode'],
+        attributes: [
+          'id',
+          'address',
+          'province',
+          'district',
+          'sector',
+          'zipCode',
+        ],
       },
     ],
   });
@@ -56,7 +63,7 @@ exports.getUserById = async (userId) => {
 };
 
 exports.updateUser = async (userId, userData) => {
-  const user = await User.findByPK(userId);
+  const user = await User.findByPk(userId);
 
   if (!user) {
     return null;
@@ -85,7 +92,14 @@ exports.getAllUsers = async () => {
       { model: Role, attributes: ['id', 'name'] },
       {
         model: Location,
-        attributes: ['id', 'address', 'city', 'state', 'country', 'zipCode'],
+        attributes: [
+          'id',
+          'address',
+          'province',
+          'district',
+          'sector',
+          'zipCode',
+        ],
       },
     ],
   });
@@ -99,7 +113,14 @@ exports.getUserByUsername = async (username) => {
       { model: Role, attributes: ['id', 'name'] },
       {
         model: Location,
-        attributes: ['id', 'address', 'city', 'state', 'country', 'zipcode'],
+        attributes: [
+          'id',
+          'address',
+          'province',
+          'district',
+          'sector',
+          'zipcode',
+        ],
       },
     ],
   });
@@ -114,7 +135,14 @@ exports.getUserByEmail = async (email) => {
       { model: Role, attributes: ['id', 'name'] },
       {
         model: Location,
-        attributes: ['id', 'address', 'city', 'state', 'country', 'zipCode'],
+        attributes: [
+          'id',
+          'address',
+          'province',
+          'district',
+          'sector',
+          'zipCode',
+        ],
       },
     ],
   });
