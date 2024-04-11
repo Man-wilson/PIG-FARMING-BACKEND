@@ -3,7 +3,7 @@ const config = require('../config/config');
 
 exports.generateToken = (userId) => {
   const payload = { userId };
-  const options = { expiresIn: '1h' };
+  const options = { expiresIn: '4h' };
   return jwt.sign(payload, config.jwtSecret, options);
 };
 
@@ -12,7 +12,6 @@ exports.verifyToken = (token) => {
     const decodedToken = jwt.verify(token, config.jwtSecret);
     return decodedToken;
   } catch (error) {
-    console.log(error);
-    throw new Error('Invalid Token');
+    throw new Error(error.name);
   }
 };

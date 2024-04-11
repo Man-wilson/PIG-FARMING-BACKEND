@@ -23,7 +23,8 @@ exports.getRoleById = async (roleId) => {
 
 exports.updateRole = async (roleId, roleData) => {
   // find the role to be updated
-  const role = Role.findByPk(roleId);
+  const role = await Role.findByPk(roleId);
+  console.log(role);
 
   //if role to be updated is not found, return
   if (!role) {
@@ -33,13 +34,16 @@ exports.updateRole = async (roleId, roleData) => {
   //Update the role fields
   Object.assign(role, roleData);
   await role.save();
+
+  // Return the role
+  return role;
 };
 
 exports.deleteRole = async (roleId) => {
   const role = await Role.findByPk(roleId);
 
   if (!role) {
-    throw new Error('Role not found!');
+    throw new Error('Role not found');
   }
   role.destroy();
 };
