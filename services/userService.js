@@ -3,16 +3,8 @@ const { User, Role, Location } = require('../models');
 const { hashPassword, comparePassword } = require('../utils/passwordUtils');
 
 exports.createUser = async (userData) => {
-  const {
-    username,
-    email,
-    password,
-    firstName,
-    lastName,
-    phoneNumber,
-    roleId,
-    locationId,
-  } = userData;
+  const { username, email, password, firstName, lastName, phoneNumber, roleId, locationId } =
+    userData;
 
   // Check if the username or email already exists
   const existingUser = await User.findOne({
@@ -47,14 +39,7 @@ exports.getUserById = async (userId) => {
       { model: Role, attributes: ['id', 'name'] },
       {
         model: Location,
-        attributes: [
-          'id',
-          'address',
-          'province',
-          'district',
-          'sector',
-          'zipCode',
-        ],
+        attributes: ['id', 'address', 'province', 'district', 'sector', 'zipCode'],
       },
     ],
   });
@@ -95,14 +80,7 @@ exports.getAllUsers = async () => {
       { model: Role, attributes: ['id', 'name'] },
       {
         model: Location,
-        attributes: [
-          'id',
-          'address',
-          'province',
-          'district',
-          'sector',
-          'zipCode',
-        ],
+        attributes: ['id', 'address', 'province', 'district', 'sector', 'zipCode'],
       },
     ],
   });
@@ -116,14 +94,7 @@ exports.getUserByUsername = async (username) => {
       { model: Role, attributes: ['id', 'name'] },
       {
         model: Location,
-        attributes: [
-          'id',
-          'address',
-          'province',
-          'district',
-          'sector',
-          'zipcode',
-        ],
+        attributes: ['id', 'address', 'province', 'district', 'sector', 'zipCode'],
       },
     ],
   });
@@ -138,14 +109,7 @@ exports.getUserByEmail = async (email) => {
       { model: Role, attributes: ['id', 'name'] },
       {
         model: Location,
-        attributes: [
-          'id',
-          'address',
-          'province',
-          'district',
-          'sector',
-          'zipCode',
-        ],
+        attributes: ['id', 'address', 'province', 'district', 'sector', 'zipCode'],
       },
     ],
   });
@@ -190,7 +154,7 @@ exports.updateUserRole = async (userId, roleId) => {
 };
 
 exports.updateUserLocation = async (userId, locationId) => {
-  const user = await user.findByPk(userId);
+  const user = await User.findByPk(userId);
 
   if (!user) {
     return null;

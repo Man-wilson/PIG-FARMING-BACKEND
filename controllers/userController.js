@@ -5,9 +5,7 @@ exports.createUser = async (req, res, next) => {
     const user = await userService.createUser(req.body);
 
     if (!user) {
-      return res
-        .status(422)
-        .json({ message: 'Username or Email already exists' });
+      return res.status(422).json({ message: 'Username or Email already exists' });
     }
 
     res.status(201).json(user);
@@ -45,7 +43,7 @@ exports.updateUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     await userService.deleteUser(req.params.id);
-    res.status(200).json({ meesgae: 'User deleted successfully' });
+    res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
     next(error);
   }
@@ -70,7 +68,7 @@ exports.getUserByUsername = async (req, res, next) => {
     const user = await userService.getUserByUsername(req.params.username);
 
     if (!user) {
-      return res.status(404).json({ message: 'user not found!' });
+      return res.status(404).json({ message: 'User not found!' });
     }
     res.status(200).json(user);
   } catch (error) {
@@ -101,16 +99,14 @@ exports.updateUserPassword = async (req, res, next) => {
     );
     res.status(200).json({ message: 'Password updated successfully' });
   } catch (error) {
+    console.log("Caught", error)
     next(error);
   }
 };
 
 exports.updateUserRole = async (req, res, next) => {
   try {
-    const user = await userService.updateUserRole(
-      req.params.id,
-      req.body.roleId
-    );
+    const user = await userService.updateUserRole(req.params.id, req.body.roleId);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -124,10 +120,7 @@ exports.updateUserRole = async (req, res, next) => {
 
 exports.updateUserLocation = async (req, res, next) => {
   try {
-    const user = await userService.updateUserLocation(
-      req.params.id,
-      req.body.locationId
-    );
+    const user = await userService.updateUserLocation(req.params.id, req.body.locationId);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
