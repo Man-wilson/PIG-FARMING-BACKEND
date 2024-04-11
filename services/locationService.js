@@ -88,11 +88,12 @@ exports.getLocationsBySector = async (sector) => {
   }
 };
 
-exports.getLocationsByZipCode = async (zipcode) => {
+exports.getLocationsByZipCode = async (zipCode) => {
   try {
-    const locations = await Location.findAll({ where: { zipcode } });
+    const locations = await Location.findAll({ where: { zipCode } });
     return locations;
   } catch (error) {
+    console.error(error);
     throw new Error('Failed to retrieve locations!');
   }
 };
