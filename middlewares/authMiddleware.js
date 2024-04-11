@@ -1,5 +1,5 @@
 const jwtUtils = require('../utils/jwtUtils');
-const {User} = require('../models');
+const { User, Role } = require('../models');
 const tokenBlacklist = require('../config/tokenBlacklist');
 
 exports.authenticateUser = async (req, res, next) => {
@@ -18,7 +18,10 @@ exports.authenticateUser = async (req, res, next) => {
     const decodedToken = jwtUtils.verifyToken(token);
     const userId = decodedToken.userId;
 
-    const user = await User.findByPk(userId);
+    const user = await User.findByPk(userId, {
+      include: [{ model: Role, attributes: ['id', 'name'] }],
+    });
+    // console.log(user.Role.dataValues.name);
     if (!user) {
       throw new Error('User not found');
     }
@@ -26,14 +29,15 @@ exports.authenticateUser = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(401).json({ message: 'Authentication failed!' });
   }
 };
 
 exports.authorizeUser = (role) => {
   return (req, res, next) => {
-    if (req.user.role !== role) {
+    // console.log(`${req.user} ==> ${role}`);
+    if (req.user.Role.dataValues.name !== role) {
       res.status(403).json({ message: 'Access denied' });
     } else {
       next();

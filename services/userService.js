@@ -69,6 +69,9 @@ exports.updateUser = async (userId, userData) => {
     return null;
   }
 
+  // hash the password
+  userData.password = await hashPassword(userData.password);
+
   //update the user fields
   Object.assign(user, userData);
   await user.save();
