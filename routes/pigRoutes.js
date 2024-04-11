@@ -12,6 +12,6 @@ router.get('/farm/:farmId', pigController.getPigsByFarm);
 router.get('/breed/:breed', pigController.getPigsByBreed);
 router.get('/gender/:gender', pigController.getPigsByGender);
 router.get('/health/:healthStatus', pigController.getPigsByHealthStatus);
-router.put('/:id/farm', authMiddleware.authenticateUser, pigController.updatePigFarm);
+router.put('/pigfarm/:id', authMiddleware.authenticateUser, pigController.updatePigFarm);
 
 module.exports = router;

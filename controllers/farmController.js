@@ -71,10 +71,7 @@ exports.getFarmsByLocation = async (req, res, next) => {
 
 exports.updateFarmLocation = async (req, res, next) => {
   try {
-    const farm = await farmService.updateFarmLocation(
-      req.params.id,
-      req.body.locationId
-    );
+    const farm = await farmService.updateFarmLocation(req.params.id, req.body.locationId);
     if (!farm) {
       return res.status(404).json({ message: 'Farm not found' });
     }

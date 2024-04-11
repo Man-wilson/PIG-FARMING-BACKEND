@@ -90,10 +90,11 @@ exports.getPigsByHealthStatus = async (healthStatus) => {
 
 exports.updatePigFarm = async (pigId, farmId) => {
   try {
-    const pig = await Pig.findByPk(pigId);
+    let pig = await Pig.findByPk(pigId);
     if (!pig) {
       return null;
     }
+    console.log('My farm ID', farmId);
     await pig.update({ farmId });
     return pig;
   } catch (error) {

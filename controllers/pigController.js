@@ -89,6 +89,7 @@ exports.getPigsByHealthStatus = async (req, res, next) => {
 
 exports.updatePigFarm = async (req, res, next) => {
   try {
+    console.log(req.body);
     const pig = await pigService.updatePigFarm(req.params.id, req.body.farmId);
     if (!pig) {
       return res.status(404).json({ message: 'Pig not found' });

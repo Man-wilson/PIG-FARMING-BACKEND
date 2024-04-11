@@ -2,10 +2,17 @@ const { Farm } = require('../models');
 
 exports.createFarm = async (farmData) => {
   try {
+    // check for existing Farm
+    const existingFarm = await Farm.findOne({ where: { name: farmData.name } });
+
+    if (existingFarm) {
+      throw new Error('Farm already exists');
+    }
+
     const farm = await Farm.create(farmData);
     return farm;
   } catch (error) {
-    throw new Error('Failed to create farm');
+    throw new Error(error.message);
   }
 };
 
