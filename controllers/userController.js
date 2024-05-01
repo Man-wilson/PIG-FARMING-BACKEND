@@ -63,6 +63,18 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
+exports.getUsersByRole = async (req, res, next) => {
+  try {
+    const users = await userService.getUsersByRole(req.params.roleId);
+    if (!users) {
+      return res.status(404).json({ message: 'Role not found' });
+    }
+    res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.getUserByUsername = async (req, res, next) => {
   try {
     const user = await userService.getUserByUsername(req.params.username);

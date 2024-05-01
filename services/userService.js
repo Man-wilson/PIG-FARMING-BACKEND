@@ -3,8 +3,7 @@ const { User, Role, Location } = require('../models');
 const { hashPassword, comparePassword } = require('../utils/passwordUtils');
 
 exports.createUser = async (userData) => {
-  const { username, email, password, firstName, lastName, phoneNumber, roleId, locationId } =
-    userData;
+  const { username, email, password, firstName, lastName, phoneNumber, roleId, locationId } = userData;
 
   // Check if the username or email already exists
   const existingUser = await User.findOne({
@@ -76,6 +75,20 @@ exports.deleteUser = async (userId) => {
 
 exports.getAllUsers = async () => {
   const users = await User.findAll({
+    include: [
+      { model: Role, attributes: ['id', 'name'] },
+      {
+        model: Location,
+        attributes: ['id', 'address', 'province', 'district', 'sector', 'zipCode'],
+      },
+    ],
+  });
+  return users;
+};
+
+exports.getUsersByRole = async (roleId) => {
+  const users = await User.findAll({
+    where: { roleId },
     include: [
       { model: Role, attributes: ['id', 'name'] },
       {
