@@ -26,7 +26,7 @@ exports.getNotificationsByRecipient = async (recipientId) => {
             include: [
               {
                 model: Location,
-                attributes: ['address', 'city', 'state', 'country'],
+                attributes: ['address', 'province', 'district', 'sector','zipCode'],
               },
               {
                 model: User,
