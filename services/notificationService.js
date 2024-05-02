@@ -1,4 +1,4 @@
-const { Notification, User, Pig } = require('../models');
+const { Notification, User, Pig, Farm, Location } = require('../models');
 
 exports.createNotification = async (notificationData, senderId) => {
   const { message, recipientId, pigId } = notificationData;
