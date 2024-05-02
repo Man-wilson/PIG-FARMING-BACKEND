@@ -16,7 +16,26 @@ exports.getNotificationsByRecipient = async (recipientId) => {
     where: { recipientId },
     include: [
       { model: User, as: 'sender', attributes: ['id', 'username'] },
-      { model: Pig, attributes: ['id', 'breed'] },
+      {
+        model: Pig,
+        attributes: ['id', 'breed'],
+        include: [
+          {
+            model: Farm,
+            attributes: ['id', 'name'],
+            include: [
+              {
+                model: Location,
+                attributes: ['address', 'city', 'state', 'country'],
+              },
+              {
+                model: User,
+                attributes: ['phoneNumber'],
+              },
+            ],
+          },
+        ],
+      },
     ],
   });
   return notifications;
