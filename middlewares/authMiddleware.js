@@ -21,7 +21,7 @@ exports.authenticateUser = async (req, res, next) => {
     const user = await User.findByPk(userId, {
       include: [{ model: Role, attributes: ['id', 'name'] }],
     });
-    // console.log(user.Role.dataValues.name);
+    
     if (!user) {
       throw new Error('User not found');
     }
@@ -39,7 +39,6 @@ exports.authenticateUser = async (req, res, next) => {
 
 exports.authorizeUser = (role) => {
   return (req, res, next) => {
-    // console.log(`${req.user} ==> ${role}`);
     if (req.user.Role.dataValues.name !== role) {
       res.status(403).json({ message: 'Access denied' });
     } else {
